@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Echa!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=1376&auto=format&fit=crop")
+            no-repeat center center fixed;
+        background-size: cover;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        overflow-x: hidden;
+      }
+
+      .birthday-text {
+        font-family: "Pacifico", cursive;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .card {
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.85);
+        transition: all 0.3s ease;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 255, 0.3);
+      }
+
+      .heart {
+        position: absolute;
+        pointer-events: none;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
+      }
+
+      .music-note {
+        position: absolute;
+        animation: floatNote 3s linear infinite;
+        opacity: 0.7;
+      }
+
+      @keyframes floatNote {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center min-h-screen p-4">
+    <!-- Audio untuk musik latar (autoplay di mobile tidak selalu bekerja) -->
+    <audio id="bgMusic" loop>
+      <source src="musik/happy-piano-233866.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Tombol kontrol musik -->
+    <button
+      id="musicToggle"
+      class="fixed top-4 right-4 bg-pink-500 text-white p-2 rounded-full shadow-lg z-50"
+    >
+      <svg
+        id="musicOn"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15.536 8.464a5 5 0 010 7.072M12 6a7.975 7.975 0 015.657 2.343m0 0a7.975 7.975 0 010 11.314m-11.314 0a7.975 7.975 0 010-11.314m0 0a7.975 7.975 0 015.657-2.343"
+        />
+      </svg>
+      <svg
+        id="musicOff"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+          clip-rule="evenodd"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+        />
+      </svg>
+    </button>
+
+    <div
+      class="card border-4 border-pink-300 px-8 py-8 shadow-xl shadow-pink-200 rounded-xl text-center animate__animated animate__backInDown w-full max-w-md relative overflow-hidden"
+    >
+      <!-- Efek hati -->
+      <div id="heartsContainer"></div>
+
+      <h1 class="text-4xl birthday-text text-pink-600 mb-2">Happy Birthday</h1>
+      <h1
+        class="text-5xl birthday-text text-purple-600 font-bold animate__animated animate__pulse animate__infinite mb-6"
+      >
+        ECHAAA 💖
+      </h1>
+
+      <div class="mb-6">
+        <img
+          src="https://plus.unsplash.com/premium_vector-1727182864989-57387d1222d3?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Birthday Cake"
+          class="w-32 h-32 mx-auto animate__animated animate__bounceIn"
+        />
+      </div>
+
+      <button
+        class="p-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full mt-2 hover:from-pink-600 hover:to-purple-700 transition-all duration-300 w-full animate__animated animate__delay-1s animate__tada font-bold text-lg shadow-lg"
+        onclick="ubahKartu()"
+      >
+        Klik Disini Sayangku! 💝
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <script>
+      // Inisialisasi variabel
+      const kartu = document.getElementById("kartu");
+      const bgMusic = document.getElementById("bgMusic");
+      const musicToggle = document.getElementById("musicToggle");
+      const musicOn = document.getElementById("musicOn");
+      const musicOff = document.getElementById("musicOff");
+      const heartsContainer = document.getElementById("heartsContainer");
+      let musicPlaying = false;
+
+      // Fungsi untuk memainkan musik
+      function toggleMusic() {
+        if (musicPlaying) {
+          bgMusic.pause();
+          musicOn.classList.add("hidden");
+          musicOff.classList.remove("hidden");
+        } else {
+          bgMusic.play().catch((e) => console.log("Autoplay prevented:", e));
+          musicOn.classList.remove("hidden");
+          musicOff.classList.add("hidden");
+        }
+        musicPlaying = !musicPlaying;
+      }
+
+      // Fungsi untuk membuat efek hati
+      function createHearts() {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 10 + "px";
+        heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
+      }
+
+      // Fungsi untuk membuat efek not musik
+      function createMusicNote() {
+        const note = document.createElement("div");
+        note.innerHTML = "♪";
+        note.className = "music-note";
+        note.style.left = Math.random() * 80 + 10 + "vw";
+        note.style.bottom = "0";
+        note.style.fontSize = Math.random() * 24 + 16 + "px";
+        note.style.animationDuration = Math.random() * 3 + 2 + "s";
+        document.body.appendChild(note);
+
+        setTimeout(() => {
+          note.remove();
+        }, 3000);
+      }
+
+      // Event listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        // Efek konfeti saat halaman dimuat
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"],
+        });
+
+        // Coba memainkan musik (mungkin tidak bekerja di mobile tanpa interaksi user)
+        try {
+          bgMusic.volume = 0.3;
+          bgMusic
+            .play()
+            .then(() => {
+              musicPlaying = true;
+              musicOn.classList.remove("hidden");
+              musicOff.classList.add("hidden");
+            })
+            .catch((e) => {
+              console.log("Autoplay prevented, perlu interaksi user");
+            });
+        } catch (e) {
+          console.log("Error memainkan musik:", e);
+        }
+
+        // Buhat hati setiap 300ms
+        setInterval(createHearts, 300);
+
+        // Buat not musik jika musik sedang diputar
+        setInterval(() => {
+          if (musicPlaying) {
+            createMusicNote();
+          }
+        }, 800);
+      });
+
+      musicToggle.addEventListener("click", toggleMusic);
+
+      function ubahKartu() {
+        // Efek konfeti saat tombol diklik
+        confetti({
+          particleCount: 200,
+          spread: 90,
+          origin: { y: 0.4 },
+          colors: ["#ff69b4", "#ff1493", "#c71585", "#db7093"],
+        });
+
+        document.querySelector(".card").innerHTML = `
+                <div id="heartsContainer"></div>
+                <h1 class="font-semibold text-wrap animate__animated animate__zoomIn text-lg text-pink-800 mb-6 leading-relaxed">
+                    Happyy birthdayyyy sayaangg! 🎉🎂<br><br>
+                    Semoga dengan bertambah dewasanya kamu, selalu diiringi dengan hal-hal yang baik. Makasih sudah mau menjadi bagian dari kehidupanku yang membosankan ini. Semoga kedepannya hubungan kita makin lancar. Maaf kalau selama ini aku selalu bikin kamu sakit hati mulai dari hal-hal kecil yang selalu jadi pemicu permasalahan kita.<br><br>
+                    LOOOVEEEE U MMOORRREEEEE ECHHAAA! 💖
+                </h1>
+                <div class="animate__animated animate__fadeInUp flex items-center justify-center mt-4">
+                    <h2 class="ml-3 text-xl birthday-text text-purple-600">
+                        - Dari Liam yang selalu sayang Echa -
+                    </h2>
+                </div>
+                <button class="p-3 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-full mt-6 hover:from-purple-600 hover:to-pink-700 transition-all duration-300 w-full animate__animated animate__delay-1s animate__tada font-bold text-lg shadow-lg" 
+                        onclick="refresh()">
+                    Kembali 🎁
+                </button>
+            `;
+      }
+
+      function refresh() {
+        location.reload();
+      }
+    </script>
+  </body>
+</html>
